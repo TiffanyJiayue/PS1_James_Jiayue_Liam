@@ -525,7 +525,7 @@ summary(model_income_controls)
 
 **Answer:**
 
-The increases in salary per year is 8,296, which is similar to the coefficient without the control variable.
+The increases in salary per year is 8,296, holding all else constant,  which is similar to the coefficient without the control variable.
 
 
 # Submission instructions:

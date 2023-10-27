@@ -393,6 +393,7 @@ In the following chunk I generate simulated data consisting of two correlated va
 ```{r sim1,  warning=FALSE}
 library(MASS)
 library(ggplot2)
+library(stargazer)
 
 out <- as.data.frame(mvrnorm(1000, mu = c(0,0), 
                      Sigma = matrix(c(1,0.8,0.8,1), ncol = 2), 
@@ -424,26 +425,33 @@ out$Y<-out$V1*B1+out$V2*B2+out$error
 **Question: Write a chunk in which you regress $Y$ on $V_1$ and $V_2$. Are your estimates of $\beta_1$ and $\beta_2$ biased?**
 
 **Code:**
-```{r}
-model <- lm(Y ~ V1 + V2, data = out)
-summary(model)
+```{r,sim2a,echo= TRUE}
+sim1<-lm(data=out, Y~V1+V2)
+```
+
+```{r, warning=FALSE,sim2b,echo= TRUE, results = "asis"}
+stargazer(sim1, type="latex", header=FALSE, 
+          title="Omitted Variable Bias Simulation", omit.stat=c("f", "ser"))
 ```
 
 **Answer:**
-
-
+Based on Table1, our estimated $\beta_1$  is 2.991, which is similar to our $\beta_1$  assigned value '3'. And estimated $\beta_2$ is 6.044, which is also similar to our $\beta_2$ assigned value '6'. Therefore, our estimates of $\beta_1$ and $\beta_2$ are not biased.
 \clearpage
 
 **Question: Write a chunk in which you regress $Y$ on $V_1$ only. Is your estimates of $\beta_1$ biased?**
 
 **Code:**
-```{r}
-model_v1 <- lm(Y ~ V1, data = out)
-summary(model_v1)
+```{r,sim2c,echo= TRUE}
+sim2<-lm(Y~V1, data=out)
+```
 
+```{r, warning=FALSE,sim2d,echo= TRUE, results = "asis"}
+stargazer(sim2, type="latex", header=FALSE, 
+          title="Omitted Variable Bias Simulation", omit.stat=c("f", "ser"))
 ```
 
 **Answer:**
+Based on Table2, our estimated $\beta_1$  is 7.826, which is not similar to our $\beta_1$  assigned value '3'.  Therefore, our estimates of $\beta_1$ is biased.
 
 \clearpage
 
@@ -452,11 +460,19 @@ summary(model_v1)
 **Code:**
 ```{r}
 out$Y_adj <- out$Y - B2 * out$V2
-model_adj <- lm(Y_adj ~ V1, data = out)
-summary(model_adj)
+```
+
+```{r,sim3a,echo= TRUE}
+model_adj<-lm(Y_adj~V1, data=out)
+```
+
+```{r, warning=FALSE,sim3b,echo= TRUE, results = "asis"}
+stargazer(model_adj, type="latex", header=FALSE, 
+          title="Omitted Variable Bias Simulation", omit.stat=c("f", "ser"))
 ```
 
 **Answer:**
+Based on Table3, our estimated $\beta_1$  is 3.026, which is similar to our $\beta_1$  assigned value '3'. This indicates that our estimates of $\beta_1$ is not biased, because when we generate $Y_{adj}=Y-\beta_2*V_2$, the $Y_{adj}$ already includes the effect of $V_2$, therefore, we can find the unbiased estimate of $\beta_1$, which is the effect of $V_1$.
 
 \clearpage
 

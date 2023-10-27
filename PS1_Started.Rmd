@@ -465,13 +465,16 @@ summary(model_adj)
 **Code:**
 
 ```{r key 4}
-plotted<-ggplot(out, aes(V1, y = value, color = variable)) + 
+plotted <- ggplot(out, aes(V1)) + 
     geom_point(aes(y = Y, col = "Y")) + 
-    geom_point(aes(y = adjY, col = "adjY"))+
-    geom_smooth(method='lm', aes(y = Y, col = "Y"))+
-    geom_smooth(method='lm', aes(y = adjY, col = "adjY"))
-
+    geom_point(aes(y = Y_adj, col = "adjY")) +
+    geom_smooth(method='lm', aes(y = Y, col = "Y")) +
+    geom_smooth(method='lm', aes(y = Y_adj, col = "adjY")) +
+    labs(title = "Scatter plot and Regression Lines",
+         x = "V1",
+         y = "Response Variable")
 plotted
+
 
 
 ```
@@ -482,6 +485,12 @@ plotted
 **Question: Load the ‘cps_clean.csv’ dataset (available on Canvas). Regress income on education and interpret the coefficient. **
 
 **Code:**
+```{r}
+cps_data <- read.csv("cps_clean.csv")
+model_income_education <- lm(income ~ education, data = cps_data)
+summary(model_income_education)
+
+```
 
 **Answer:**
 
@@ -493,6 +502,10 @@ plotted
 
 
 **Code:**
+```{r}
+model_income_controls <- lm(income ~ education + control1 + control2, data = cps_data)
+summary(model_income_controls)
+```
 
 **Answer:**
 

@@ -503,14 +503,14 @@ plotted
 **Code:**
 ```{r}
 cps_data <- read.csv("cps_clean.csv")
-model_income_education <- lm(income ~ education, data = cps_data)
+model_income_education <- lm(inctot ~ edu, data = cps_data)
 summary(model_income_education)
 
 ```
 
 **Answer:**
 
-
+one additional year of education will add $8,114.70 to ones salary. 
 
 \clearpage
 
@@ -519,13 +519,13 @@ summary(model_income_education)
 
 **Code:**
 ```{r}
-model_income_controls <- lm(income ~ education + control1 + control2, data = cps_data)
+model_income_controls <- lm(inctot ~ edu + female + age , data = cps_data)
 summary(model_income_controls)
 ```
 
 **Answer:**
 
-
+The increases in salary per year is 8,296, which is similar to the coefficient without the control variable.
 
 
 # Submission instructions:
